@@ -6,7 +6,7 @@
 		.module('backoffice')
 		.factory('serviceMap', serviceMap);
     
-    
+    var counter = 0;
 serviceMap.$inject = ['$q','$rootScope'];
   
  function serviceMap ($q, $rootScope) {
@@ -47,9 +47,10 @@ serviceMap.$inject = ['$q','$rootScope'];
 
 function callback(results, status, pagination) {
    
-       
-       
+             counter++;
+       if(counter !==1){
      $rootScope.$emit('nextPage',results)
+       }
       if (status == google.maps.places.PlacesServiceStatus.OK) {
 
       
@@ -60,14 +61,10 @@ function callback(results, status, pagination) {
 
         
         pagination.nextPage(results);
-    
 
-       
     }
       
 
-
-   
       },3000)
       
        
@@ -77,6 +74,10 @@ function callback(results, status, pagination) {
       return results;
     
       }
+      
+      
+      
+
   
     }
     
