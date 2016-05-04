@@ -31,24 +31,17 @@
 		///////////////////////////
 
 		function activate() {
-
-			serviceMap.initialize().then(function(result){
+			
+			serviceMap.initialize(NgMap.getMap()).then(function(result){
 			
 		
 		
 		result.forEach(function(val){
-			if(val.photos){
-console.log(val.photos[0].getUrl({
-    maxWidth: 640
-}))
-			}
+		
 			vm.venues.push(new Venue(val))
 			
 		})
 		
-		
-		
-
 		})
 				.then(loadMap)
 				.then(loadMarkers);
