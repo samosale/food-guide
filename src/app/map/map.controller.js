@@ -17,10 +17,8 @@
 
 		vm.mapConfig = mapConfig;
 		vm.venues = [];
-		
-		
-		
-		console.log(vm.venues)
+		vm.showVenueInfo = showVenueInfo;
+		vm.loaded = 0;
 		
 		vm.panelOpened = false;
 
@@ -31,6 +29,7 @@
 
 $rootScope.$on('nextPage', function(event,nextPage){
 	
+	vm.loaded += nextPage.length;
 	
 	nextPage.forEach(function(val){
 		
@@ -48,17 +47,7 @@ $rootScope.$on('nextPage', function(event,nextPage){
 
 		function activate() {
 			
-			serviceMap.initialize(NgMap.getMap()).then(function(result){
-			
-		
-		
-		result.forEach(function(val){
-		
-			vm.venues.push(new Venue(val))
-			
-		})
-		
-		})
+		loadVenues()
 				.then(loadMap)
 				.then(loadMarkers);
 		}
@@ -70,15 +59,21 @@ $rootScope.$on('nextPage', function(event,nextPage){
 
 		function loadVenues() {
 
-			var center = vm.mapConfig.center.split(',');
-
-
-			return venueService
-				.search(center[0], center[1], 200)
-				.then(function(venues) { 
-					vm.venues = venues;
-					return true;
-				});
+			
+				return serviceMap.initialize(NgMap.getMap()).then(function(result){
+			vm.loaded += result.length;
+		
+		
+		result.forEach(function(val){
+		
+			vm.venues.push(new Venue(val))
+			
+		})
+		
+		})
+			
+			
+			
 		}
 
 		function loadMap() {

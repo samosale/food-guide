@@ -6,8 +6,9 @@
 		.module('backoffice')
 		.factory('serviceMap', serviceMap);
     
-    var counter = 0;
-serviceMap.$inject = ['$q','$rootScope'];
+ var counter = 0;
+ 
+ serviceMap.$inject = ['$q','$rootScope'];
   
  function serviceMap ($q, $rootScope) {
    
@@ -29,7 +30,7 @@ serviceMap.$inject = ['$q','$rootScope'];
       var request = {
         location: pos,
         radius: 8000,
-        types: ['food']
+        types: ['food','restaurant','cafe']
       };
 
       
@@ -45,42 +46,42 @@ serviceMap.$inject = ['$q','$rootScope'];
 
 
 
-function callback(results, status, pagination) {
-   
-             counter++;
-       if(counter !==1){
-     $rootScope.$emit('nextPage',results)
-       }
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-
-      
-      setTimeout(function(){
+      function callback(results, status, pagination) {
         
-        if (pagination.hasNextPage) {
-         
-
+                  counter++;
+            if(counter !==1){
+          $rootScope.$emit('nextPage',results)
+            }
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+      
+            
+            setTimeout(function(){
+              
+              if (pagination.hasNextPage) {
+              
+      
+              
+              pagination.nextPage(results);
+      
+          }
+            
+      
+            },2000)
+            
+            
+            
+            deferred.resolve(results);
+      
+            return results;
+          
+            }
+            
+            
+            
+      
         
-        pagination.nextPage(results);
-
-    }
-      
-
-      },3000)
-      
-       
-       
-      deferred.resolve(results);
-
-      return results;
-    
-      }
-      
-      
-      
-
-  
-    }
-    
+          }
+          
     
     return deferred.promise;
       
