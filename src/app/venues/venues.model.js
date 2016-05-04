@@ -17,7 +17,7 @@
 		this.name = data && data.name ? data.name : '';
 		this.address = data && data.vicinity ? data.vicinity : '';
 		this.logo = data && data.photos ? data.photos[0].getUrl({
-    maxWidth: 640
+    maxWidth: 1640
 }) : '';
 		this.latitude = data && data.geometry.location ? data.geometry.location.lat() : 0;
 		this.longitude = data && data.geometry.location ? data.geometry.location.lng() : 0;

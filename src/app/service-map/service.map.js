@@ -7,9 +7,9 @@
 		.factory('serviceMap', serviceMap);
     
     
-serviceMap.$inject = ['$q'];
+serviceMap.$inject = ['$q','$rootScope'];
   
- function serviceMap ($q) {
+ function serviceMap ($q, $rootScope) {
    
    
 
@@ -45,14 +45,33 @@ serviceMap.$inject = ['$q'];
 
 
 
-function callback(results, status) {
+function callback(results, status, pagination) {
    
        
        
-     
+     $rootScope.$emit('nextPage',results)
       if (status == google.maps.places.PlacesServiceStatus.OK) {
-      console.log(results)
+
       
+      setTimeout(function(){
+        
+        if (pagination.hasNextPage) {
+         
+
+        
+        pagination.nextPage(results);
+    
+
+       
+    }
+      
+
+
+   
+      },3000)
+      
+       
+       
       deferred.resolve(results);
 
       return results;

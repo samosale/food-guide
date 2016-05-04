@@ -5,9 +5,9 @@
 		.module('backoffice')
 		.controller('MapController', mapController);
 
-	mapController.$inject = ['$q', 'venueService', 'NgMap', 'mapConfig', '$uibModal','serviceMap', 'Venue'];
+	mapController.$inject = ['$q', 'venueService', 'NgMap', 'mapConfig', '$uibModal','serviceMap', 'Venue', '$rootScope'];
 
-	function mapController($q, venueService, NgMap, mapConfig, $uibModal, serviceMap, Venue) {
+	function mapController($q, venueService, NgMap, mapConfig, $uibModal, serviceMap, Venue, $rootScope) {
 
 
 
@@ -28,6 +28,22 @@
         
 		activate();
 
+
+$rootScope.$on('nextPage', function(event,nextPage){
+	
+	
+	nextPage.forEach(function(val){
+		
+			vm.venues.push(new Venue(val))
+			
+		});
+		
+		
+		
+		loadMap()
+		.then(loadMarkers);
+	
+})
 		///////////////////////////
 
 		function activate() {
