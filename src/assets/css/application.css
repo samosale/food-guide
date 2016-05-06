@@ -360,6 +360,7 @@ hr {
 }
 
 .venue-modal .venue-logo {
+  height:250px;
   max-height: 250px;
   overflow: hidden;
   text-align: center;
@@ -368,6 +369,17 @@ hr {
 .venue-modal .venue-logo div {
 background-size: cover;
 height: 250px;
+
+height: 100%; 
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+
+
+background-position: top center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+
 
 
 }
