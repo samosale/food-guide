@@ -10,39 +10,7 @@
 	function mapController($q, venueService, NgMap, mapConfig, $uibModal, serviceMap, Venue, $rootScope) {
 
 
-$rootScope.$on('details', function(event,res){
-	
-
-	console.log(res);
-	
-})
-
-
-
-
-function getAll200 () {
-	vm.rings = true;
-	vm.showButton = false;
-serviceMap.getAll200().then(function(result){
-vm.rings = false;
-console.log(result);
-result.forEach(function(val){
-	
-	vm.venues.push(new Venue(val))
-	
-});
-
-vm.loaded = vm.venues.length;
-
-	loadMap()
-		.then(loadMarkers);
-
-
-},function(err){console.log(err)});
-
-
-}
-		var vm = this;
+        var vm = this;
 		vm.getAll200 = getAll200;
         vm.rings = false;
 		vm.showButton = true;
@@ -56,6 +24,17 @@ vm.loaded = vm.venues.length;
 		vm.togglePanel = togglePanel;
         
 		activate();
+		
+		
+/*** Event Recivers ***/
+
+
+$rootScope.$on('details', function(event,res){
+	
+
+	console.log(res);
+	
+})
 
 
 $rootScope.$on('nextPage', function(event,nextPage){
@@ -73,18 +52,42 @@ $rootScope.$on('nextPage', function(event,nextPage){
 		loadMap()
 		.then(loadMarkers);
 	
-})
+});
 
 
-
-		///////////////////////////
-
+		/*** FUNCTIONS ***/
+		
 		function activate() {
 			
 		loadVenues()
 				.then(loadMap)
 				.then(loadMarkers);
 		}
+		
+		
+		function getAll200 () {
+			vm.rings = true;
+			vm.showButton = false;
+		serviceMap.getAll200().then(function(result){
+		vm.rings = false;
+		console.log(result);
+		result.forEach(function(val){
+			
+			vm.venues.push(new Venue(val))
+			
+		});
+		
+		vm.loaded = vm.venues.length;
+		
+			loadMap()
+				.then(loadMarkers);
+		
+		
+		},function(err){console.log(err)});
+		
+		
+		}
+				
 
 		function togglePanel() {
 
