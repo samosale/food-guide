@@ -5,9 +5,9 @@
 		.module('backoffice')
 		.controller('MapController', mapController);
 
-	mapController.$inject = ['$q', 'venueService', 'NgMap', 'mapConfig', '$uibModal','serviceMap', 'Venue', '$rootScope'];
+	mapController.$inject = ['$q', 'venueService', 'NgMap', 'mapConfig', '$uibModal', 'Venue', '$rootScope', '$http'];
 
-	function mapController($q, venueService, NgMap, mapConfig, $uibModal, serviceMap, Venue, $rootScope) {
+	function mapController($q, venueService, NgMap, mapConfig, $uibModal, Venue, $rootScope, $http) {
 
 
         var vm = this;
@@ -26,33 +26,33 @@
 		activate();
 		
 		
-/*** Event Recivers ***/
+      /*** Event Recivers ***/
 
-
-$rootScope.$on('details', function(event,res){
-	
-
-	console.log(res);
-	
-})
-
-
-$rootScope.$on('nextPage', function(event,nextPage){
-	
-	vm.loaded += nextPage.length;
-	
-	nextPage.forEach(function(val){
 		
-			vm.venues.push(new Venue(val))
+		$rootScope.$on('details', function(event,res){
+			
+		
+			console.log(res);
+			
+		})
+		
+		
+		$rootScope.$on('nextPage', function(event,nextPage){
+			
+			vm.loaded += nextPage.length;
+			
+			nextPage.forEach(function(val){
+				
+					vm.venues.push(new Venue(val))
+					
+				});
+				
+				
+				
+				loadMap()
+				.then(loadMarkers);
 			
 		});
-		
-		
-		
-		loadMap()
-		.then(loadMarkers);
-	
-});
 
 
 		/*** FUNCTIONS ***/
@@ -66,9 +66,11 @@ $rootScope.$on('nextPage', function(event,nextPage){
 		
 		
 		function getAll200 () {
-			vm.rings = true;
-			vm.showButton = false;
-		serviceMap.getAll200().then(function(result){
+			
+		vm.rings = true;
+		vm.showButton = false;
+			
+		venueService.getAll200().then(function(result){
 		vm.rings = false;
 		console.log(result);
 		result.forEach(function(val){
@@ -77,6 +79,8 @@ $rootScope.$on('nextPage', function(event,nextPage){
 			
 		});
 		
+		
+
 		vm.loaded = vm.venues.length;
 		
 			loadMap()
@@ -97,7 +101,7 @@ $rootScope.$on('nextPage', function(event,nextPage){
 		function loadVenues() {
 
 			
-				return serviceMap.initialize(NgMap.getMap()).then(function(result){
+				return venueService.initialize(NgMap.getMap()).then(function(result){
 			vm.loaded += result.length;
 		
 		
@@ -155,7 +159,7 @@ $rootScope.$on('nextPage', function(event,nextPage){
 
 
 		function showVenueInfo(venue, details) {
-console.log(venue)
+            console.log(venue)
 			$uibModal.open({
 				animation: true,
                 templateUrl: 'views/venues/venues.venue-modal.html',
@@ -163,12 +167,16 @@ console.log(venue)
                 resolve: {
                     options: {
                     		venue: venue,
-							idres: (function() { return serviceMap.getDetails(NgMap.getMap(),venue.placeId)})()
+							idres: (function() { return venueService.getDetails(NgMap.getMap(),venue.placeId)})()
 							
                     	
                     }
                 }
 			});
         }
+		
+		
+		
 	}
+	
 })();

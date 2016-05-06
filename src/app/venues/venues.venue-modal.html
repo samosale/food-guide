@@ -26,7 +26,7 @@
 	</div>
 	<div class="info-item uppercase">
 		<span class="icon icon-air"></span>
-		{{vm.venue.type}}
+		{{vm.venue.type.join(', ')}}
 	</div>
 
     <div ng-show="vm.venue.phone"   ng-class="{'showAll' : vm.show}" class="info-item flag">
