@@ -10,11 +10,42 @@
 	function mapController($q, venueService, NgMap, mapConfig, $uibModal, serviceMap, Venue, $rootScope) {
 
 
+$rootScope.$on('details', function(event,res){
+	
+
+	console.log(res);
+	
+})
 
 
+
+
+function getAll200 () {
+	vm.rings = true;
+	vm.showButton = false;
+serviceMap.getAll200().then(function(result){
+vm.rings = false;
+console.log(result);
+result.forEach(function(val){
+	
+	vm.venues.push(new Venue(val))
+	
+});
+
+vm.loaded = vm.venues.length;
+
+	loadMap()
+		.then(loadMarkers);
+
+
+},function(err){console.log(err)});
+
+
+}
 		var vm = this;
-		
-
+		vm.getAll200 = getAll200;
+        vm.rings = false;
+		vm.showButton = true;
 		vm.mapConfig = mapConfig;
 		vm.venues = [];
 		vm.showVenueInfo = showVenueInfo;
@@ -43,6 +74,9 @@ $rootScope.$on('nextPage', function(event,nextPage){
 		.then(loadMarkers);
 	
 })
+
+
+
 		///////////////////////////
 
 		function activate() {
@@ -104,23 +138,31 @@ $rootScope.$on('nextPage', function(event,nextPage){
             });
 
 			mark.addListener('click', function() {
-              showVenueInfo(venue);
+				
+					showVenueInfo(venue );
+         //  serviceMap.getDetails(NgMap.getMap(), venue.placeId);
+			
+			
+			  
             });
 
             return mark;
 		}
 
-		function showVenueInfo(venue) {
 
+
+		function showVenueInfo(venue, details) {
+console.log(venue)
 			$uibModal.open({
 				animation: true,
                 templateUrl: 'views/venues/venues.venue-modal.html',
                 controller: 'VenueModalController as vm',
                 resolve: {
-                    options: function() {
-                    	return {
-                    		venue: venue
-                    	}
+                    options: {
+                    		venue: venue,
+							idres: (function() { return serviceMap.getDetails(NgMap.getMap(),venue.placeId)})()
+							
+                    	
                     }
                 }
 			});

@@ -1,7 +1,8 @@
-<div class="modal-body venue-modal">
+<div class="modal-body venue-modal heightMax">
 	
 	<div class="venue-logo">
-		<img ng-src="{{vm.venue.logo}}" />
+	<div ng-style="{'background-image':'url(' + vm.venue.logo + ')'}"  ></div>
+	<!--	<img ng-src="{{vm.venue.logo}}" /> -->
 	</div>
 
 	<div class="title">{{vm.venue.name}}</div>
@@ -16,6 +17,7 @@
 
 	</div>
 
+	
 	<hr />
 
 	<div class="info-item">
@@ -27,8 +29,26 @@
 		{{vm.venue.type}}
 	</div>
 
-	<hr />
+    <div ng-show="vm.venue.phone"   ng-class="{'showAll' : vm.show}" class="info-item flag">
+		<span class="icon icon-phone"></span>
+		{{vm.venue.phone}}
+	</div>
+	
+	<div ng-class="{'showAll' : vm.show}" class="info-item flag">
+		<span ng-show="vm.venue.website"  class="icon icon-icloud"></span>
+		<a href="{{vm.venue.website}}" >{{vm.venue.website}} </a>
+	</div>
 
-	<button type="button" class="btn btn-lg btn-primary-outline btn-block">Check more details</button>
+	<hr />
+	
+	
+	<div ng-class="{'showAll' : vm.show}" ng-repeat="review in vm.venue.reviews" class="info-item flag">
+		<span><a href="{{review.author_url}}" >{{review.author_name}}</a></span> <span ng-show="review.author_name">napisao/la:</span>
+		
+		<span class="icon .icon-text-document"></span>
+		{{review.text}}
+	</div>
+
+	<button ng-click="vm.showAll()" type="button" class="btn btn-lg btn-primary-outline btn-block"><div ng-show="vm.buttonShow" id="ring4"></div>Check more details</button>
 
 </div>

@@ -360,16 +360,16 @@ hr {
 }
 
 .venue-modal .venue-logo {
-  max-height: 150px;
+  max-height: 250px;
   overflow: hidden;
   text-align: center;
 }
 
-.venue-modal .venue-logo img {
-width:auto;
-height:auto;
-max-width:MaxSize;
-max-height:MaxSize;
+.venue-modal .venue-logo div {
+background-size: cover;
+height: 250px;
+
+
 }
 
 .venue-modal .title {
@@ -402,3 +402,112 @@ max-height:MaxSize;
   text-transform: uppercase;
 }
 
+
+.flag{
+  max-height: 1300px;
+ transition: all .5s ease;
+}
+
+.showAll{
+  max-height: 0px;
+
+  transform: scaleY(0);
+  opacity:0;
+}
+
+
+
+
+#ring {
+  animation-delay: 1000ms;
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  position: fixed;
+  left: 40px;
+  top: 90px;
+  border: 2px solid #045F8F;
+  
+  animation-name: bloop;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+  
+}
+
+#ring1 {
+  height: 38px;
+  width: 38px;
+  border-radius: 100%;
+ position: fixed;
+  left: 40px;
+  top: 90px;
+ 
+  border: 2px solid #005F8F;
+  animation-delay: 200ms;
+  animation-name: bloop;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+  
+}
+#ring2 {
+  height: 38px;
+  width: 38px;
+  border-radius: 100%;
+  position: fixed;
+  left: 40px;
+  top: 90px;
+ 
+  border: 2px solid #045F8F;
+  animation-delay: 400ms;
+  animation-name: bloop;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+  
+}
+
+#ring3 {
+  height: 38px;
+  width: 38px;
+  border-radius: 100%;
+  position: fixed;
+  left: 40px;
+  top: 90px;
+  border: 2px solid #045F8F;
+  animation-delay: 600ms;
+  animation-name: bloop;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+  
+}
+#ring4 {
+  height: 38px;
+  width: 38px;
+  border-radius: 100%;
+  position: absolute;
+  left: 280px;
+  top: 90%;
+  border: 2px solid #045F8F;
+  animation-delay: 600ms;
+  animation-name: bloop;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+  
+  
+  
+}
+
+@keyframes bloop {
+  0% {transform:scale(0.4, 0.4); opacity: 1;}
+  100% {transform:scale(1.0, 1.0); opacity: 0;}
+}
+.loadAll200{
+color:#045F8F;
+    position: absolute;
+  left: 10px;
+  top: 90px;
+}

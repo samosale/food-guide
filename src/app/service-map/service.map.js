@@ -8,9 +8,9 @@
     
  var counter = 0;
  
- serviceMap.$inject = ['$q','$rootScope'];
+ serviceMap.$inject = ['$q','$rootScope','$http'];
   
- function serviceMap ($q, $rootScope) {
+ function serviceMap ($q, $rootScope, $http) {
    
    
 
@@ -89,10 +89,55 @@
 
 
 
+var getAll200 =function(){
+  
+  return $http({method:'GET',url:'https://crossorigin.me/https://maps.googleapis.com/maps/api/place/radarsearch/json?location=44.7866,20.4489&radius=15000&type=cafe&rankby=distance&key=AIzaSyAj_WBCu0w5B9-N8uiTzUs_ArygMHf15ac'}).then(function(result){
+    return result.data.results;
+    
+    
+  },function(err){
+    console.log(err)
+  })
+  
+  
+} 
+
+var getDetails = function(mapp, id) {
+   var deferred = $q.defer();
+
+  var request = {
+  placeId: id
+};
+
+
+mapp.then(function(res){
+       
+       
+    
+      var service = new google.maps.places.PlacesService(res);
+      
+      service.getDetails(request, callbackj);
+       })
+
+
+
+function callbackj(place, status) {
+  
+  
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    
+    $rootScope.$emit('details', place)
+    deferred.resolve(place);
+  }
+}
+    return deferred.promise;
+  
+}
    
    return {
-     initialize:initialize
-     
+     initialize:initialize,
+     getAll200: getAll200,
+     getDetails:getDetails
    };
  }
  
