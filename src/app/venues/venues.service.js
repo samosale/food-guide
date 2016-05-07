@@ -8,9 +8,9 @@
 	 
     var counter = 0;
     
-    venueService.$inject = ['$q','$rootScope','$http'];
+    venueService.$inject = ['$q','$rootScope','$http','NgMap'];
       
- function venueService ($q, $rootScope, $http) {
+ function venueService ($q, $rootScope, $http, NgMap) {
    
     
   
@@ -34,7 +34,7 @@
         };
   
         
-        mapp.then(function(res){
+        NgMap.getMap().then(function(res){
         
         
       
@@ -109,7 +109,7 @@
     };
     
     
-    mapp.then(function(res){
+    NgMap.getMap().then(function(res){
           
           
         
