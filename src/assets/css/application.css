@@ -417,7 +417,7 @@ background-position: top center;
 
 .flag{
   max-height: 1300px;
- transition: all .5s ease;
+ transition: all 1s ease;
 }
 
 .showAll{
@@ -502,6 +502,13 @@ background-position: top center;
   position: absolute;
   left: 280px;
   top: 90%;
+  
+
+    position: relative;
+    top: -2px; 
+    left: 250px;
+    margin-bottom: -30px;
+
   border: 2px solid #045F8F;
   animation-delay: 600ms;
   animation-name: bloop;

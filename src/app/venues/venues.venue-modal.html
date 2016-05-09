@@ -41,13 +41,18 @@
 
 	<hr />
 	
+	<div class="media flag" style="padding-bottom:10px;" ng-class="{'showAll' : vm.show}" ng-repeat="review in vm.venue.reviews" class="flag">
+  <a class="media-left" href="{{review.author_url}}">
+    <img class="media-object" ng-src="https:{{review.profile_photo_url || '//lh4.googleusercontent.com/-nwSYdSxkKQ0/AAAAAAAAAAI/AAAAAAAAAJM/ezajtXe3irE/photo.jpg'}}?sz=50" alt="Generic placeholder image">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">{{review.author_name}}</h4>
+{{review.text}}
+  </div>
+</div>
+
+
 	
-	<div ng-class="{'showAll' : vm.show}" ng-repeat="review in vm.venue.reviews" class="info-item flag">
-		<span><a href="{{review.author_url}}" >{{review.author_name}}</a></span> <span ng-show="review.author_name">napisao/la:</span>
-		
-		<span class="icon .icon-text-document"></span>
-		{{review.text}}
-	</div>
 
 	<button ng-click="vm.showAll()" type="button" class="btn btn-lg btn-primary-outline btn-block"><div ng-show="vm.buttonShow" id="ring4"></div>Check more details</button>
 
