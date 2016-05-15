@@ -6,7 +6,14 @@
 	    styles="{{vm.mapConfig.style}}" 
 	    class="map"></ng-map>
 
-
+<div  class="info-left">{{vm.loaded}} places loaded</div>
+<div ng-show="vm.showButton" ng-click="vm.getAll200()" class="loadAll200 btn btn-primary">Load 200+</div>
+<div ng-show="vm.rings">
+<div id="ring"></div>
+<div id="ring1"></div>
+<div id="ring2"></div>
+<div id="ring3"></div>
+</div>
     <div class="right-panel" ng-class="{ 'open': vm.panelOpened, 'closed': !vm.panelOpened }">
     	<a href="" class="panel-toggler" ng-click="vm.togglePanel()">
     		<span class="icon icon-chevron-left" ng-if="!vm.panelOpened"></span>
@@ -14,7 +21,7 @@
     	</a>
     	<div class="content">
     		
-    		<div ng-include="'views/venues/venues.venue-info.html'" ng-repeat="venue in vm.venues"></div>
+    		<div ng-click="vm.showVenueInfo(venue)" ng-include="'views/venues/venues.venue-info.html'" ng-repeat="venue in vm.venues"></div>
 
     	</div>
     </div>

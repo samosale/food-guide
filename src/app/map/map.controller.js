@@ -5,28 +5,93 @@
 		.module('backoffice')
 		.controller('MapController', mapController);
 
-	mapController.$inject = ['$q', 'venueService', 'NgMap', 'mapConfig', '$uibModal'];
+	mapController.$inject = ['$q', 'venueService', 'NgMap', 'mapConfig', '$uibModal', 'Venue', '$rootScope', '$http'];
 
-	function mapController($q, venueService, NgMap, mapConfig, $uibModal) {
+	function mapController($q, venueService, NgMap, mapConfig, $uibModal, Venue, $rootScope, $http) {
 
-		var vm = this;
 
+        var vm = this;
+		vm.getAll200 = getAll200;
+        vm.rings = false;
+		vm.showButton = true;
 		vm.mapConfig = mapConfig;
 		vm.venues = [];
+		vm.showVenueInfo = showVenueInfo;
+		vm.loaded = 0;
+		
 		vm.panelOpened = false;
 
 		vm.togglePanel = togglePanel;
-
+        
 		activate();
+		
+		
+      /*** Event Recivers ***/
 
-		///////////////////////////
+		
+		$rootScope.$on('details', function(event,res){
+			
+		
+			console.log(res);
+			
+		})
+		
+		
+		$rootScope.$on('nextPage', function(event,nextPage){
+			
+			vm.loaded += nextPage.length;
+			
+			nextPage.forEach(function(val){
+				
+					vm.venues.push(new Venue(val))
+					
+				});
+				
+				
+				
+				loadMap()
+				.then(loadMarkers);
+			
+		});
 
+
+		/*** FUNCTIONS ***/
+		
 		function activate() {
-
-			loadVenues()
+			
+		loadVenues()
 				.then(loadMap)
 				.then(loadMarkers);
 		}
+		
+		
+		function getAll200 () {
+			
+		vm.rings = true;
+		vm.showButton = false;
+			
+		venueService.getAll200().then(function(result){
+		vm.rings = false;
+		console.log(result);
+		result.forEach(function(val){
+			
+			vm.venues.push(new Venue(val))
+			
+		});
+		
+		
+
+		vm.loaded = vm.venues.length;
+		
+			loadMap()
+				.then(loadMarkers);
+		
+		
+		},function(err){console.log(err)});
+		
+		
+		}
+				
 
 		function togglePanel() {
 
@@ -35,14 +100,21 @@
 
 		function loadVenues() {
 
-			var center = vm.mapConfig.center.split(',');
-
-			return venueService
-				.search(center[0], center[1], 200)
-				.then(function(venues) { 
-					vm.venues = venues;
-					return true;
-				});
+			
+				return venueService.initialize(NgMap.getMap()).then(function(result){
+			vm.loaded += result.length;
+		
+		
+		result.forEach(function(val){
+		
+			vm.venues.push(new Venue(val))
+			
+		})
+		
+		})
+			
+			
+			
 		}
 
 		function loadMap() {
@@ -73,26 +145,38 @@
             });
 
 			mark.addListener('click', function() {
-              showVenueInfo(venue);
+				
+					showVenueInfo(venue );
+         //  serviceMap.getDetails(NgMap.getMap(), venue.placeId);
+			
+			
+			  
             });
 
             return mark;
 		}
 
-		function showVenueInfo(venue) {
 
+
+		function showVenueInfo(venue, details) {
+            console.log(venue)
 			$uibModal.open({
 				animation: true,
                 templateUrl: 'views/venues/venues.venue-modal.html',
                 controller: 'VenueModalController as vm',
                 resolve: {
-                    options: function() {
-                    	return {
-                    		venue: venue
-                    	}
+                    options: {
+                    		venue: venue,
+							idres: (function() { return venueService.getDetails(NgMap.getMap(),venue.placeId)})()
+							
+                    	
                     }
                 }
 			});
         }
+		
+		
+		
 	}
+	
 })();

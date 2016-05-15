@@ -1,7 +1,8 @@
-<div class="modal-body venue-modal">
+<div class="modal-body venue-modal heightMax">
 	
 	<div class="venue-logo">
-		<img ng-src="{{vm.venue.logo}}" />
+	<div class="" ng-style="{'background-image':'url(' + vm.venue.logo + ')'}"  ></div>
+	<!--	<img ng-src="{{vm.venue.logo}}" /> -->
 	</div>
 
 	<div class="title">{{vm.venue.name}}</div>
@@ -16,6 +17,7 @@
 
 	</div>
 
+	
 	<hr />
 
 	<div class="info-item">
@@ -24,11 +26,34 @@
 	</div>
 	<div class="info-item uppercase">
 		<span class="icon icon-air"></span>
-		{{vm.venue.type}}
+		{{vm.venue.type.join(', ')}}
+	</div>
+
+    <div ng-show="vm.venue.phone"   ng-class="{'showAll' : vm.show}" class="info-item flag">
+		<span class="icon icon-phone"></span>
+		{{vm.venue.phone}}
+	</div>
+	
+	<div ng-class="{'showAll' : vm.show}" class="info-item flag">
+		<span ng-show="vm.venue.website"  class="icon icon-icloud"></span>
+		<a href="{{vm.venue.website}}" >{{vm.venue.website}} </a>
 	</div>
 
 	<hr />
+	
+	<div class="media flag" style="padding-bottom:10px;" ng-class="{'showAll' : vm.show}" ng-repeat="review in vm.venue.reviews" class="flag">
+  <a class="media-left" href="{{review.author_url}}">
+    <img class="media-object" ng-src="https:{{review.profile_photo_url || '//lh4.googleusercontent.com/-nwSYdSxkKQ0/AAAAAAAAAAI/AAAAAAAAAJM/ezajtXe3irE/photo.jpg'}}?sz=50" alt="Generic placeholder image">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">{{review.author_name}}</h4>
+{{review.text}}
+  </div>
+</div>
 
-	<button type="button" class="btn btn-lg btn-primary-outline btn-block">Check more details</button>
+
+	
+
+	<button ng-click="vm.showAll()" type="button" class="btn btn-lg btn-primary-outline btn-block"><div ng-show="vm.buttonShow" id="ring4"></div>Check more details</button>
 
 </div>
